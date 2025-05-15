@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fashion Brand</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            overflow-x: hidden;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            display: flex;
+            justify-content: flex-end;
+            background-color: #f2f2f2;
+            padding: 10px 20px;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .top-nav a {
+            color: #333;
+            text-decoration: none;
+            margin-left: 20px;
+            font-size: 14px;
+        }
+
+        .top-nav .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f9f9f9;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+
+        /* Main Navigation */
+        .main-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            background-color: white;
+            border-bottom: 1px solid #e5e5e5;
+        }
+
+        .logo {
+            width: 100px;
+            height: 40px;
+        }
+
+        .logo svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .categories {
+            display: flex;
+            justify-content: center;
+            flex-grow: 1;
+        }
+
+        .categories a {
+            margin: 0 30px;
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .icons {
+            display: flex;
+            align-items: center;
+        }
+
+        .icons a {
+            margin-left: 20px;
+            color: black;
+            text-decoration: none;
+        }
+
+        /* Shipping Banner */
+        .shipping-banner {
+            background-color: #f9f9f9;
+            text-align: center;
+            padding: 10px 0;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .pause-button {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 80vh;
+            background-color: #ff3b30;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .hero-title {
+            font-size: 5vw;
+            font-weight: 900;
+            line-height: 1;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        .shop-now {
+            background-color: white;
+            color: black;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        .hero-logo {
+            position: absolute;
+            top: 20%;
+            right: 20%;
+            width: 150px;
+            height: 150px;
+            opacity: 0.8;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .bottom-controls {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+            background-color: black;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <a href="#">Account</a>
+        <a href="#">Accessibility Statement</a>
+        <a href="#">Help</a>
+        <a href="#">Email Sign Up</a>
+        <a href="#">Blog</a>
+        <div class="dropdown">
+            <a href="#">ROW &#9662;</a>
+        </div>
+    </div>
+
+    <!-- Main Navigation -->
+    <div class="main-nav">
+        <div class="logo">
+            <svg viewBox="0 0 100 40" fill="black">
+                <path d="M10,30 L30,10 L50,30 Z"></path>
+            </svg>
+        </div>
+        <div class="categories">
+            <a href="#">WOMEN</a>
+            <a href="#">MEN</a>
+            <a href="#">ACCESSORIES</a>
+        </div>
+        <div class="icons">
+            <a href="#">&#128269;</a>
+            <a href="#">&#9825;</a>
+            <a href="#">&#128100;</a>
+            <a href="#">&#128722;</a>
+        </div>
+    </div>
+
+    <!-- Shipping Banner -->
+    <div class="shipping-banner">
+        SHIPPING: PLEASE REFER TO OUR DELIVERY INFORMATION.
+        <span class="pause-button">&#10073;&#10073;</span>
+    </div>
+
+    <!-- Hero Section -->
+    <div class="hero">
+        <div class="hero-logo">
+            <svg viewBox="0 0 100 100" fill="white">
+                <path d="M10,70 L50,30 L90,70 Z"></path>
+            </svg>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">VITAL IS AN ICON.<br>6.9 MILLION OF<br>YOU AGREE.</h1>
+            <a href="#" class="shop-now">SHOP NOW</a>
+        </div>
+        <div class="bottom-controls">&#10073;&#10073;</div>
+    </div>
+</body>
+</html>
