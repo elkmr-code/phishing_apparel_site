@@ -112,8 +112,15 @@
         .hero {
             position: relative;
             height: 80vh;
-            background-color: #ff3b30;
             overflow: hidden;
+        }
+
+        .hero-bg-video {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            z-index: 0;
         }
 
         .hero-content {
@@ -125,25 +132,7 @@
             color: white;
             width: 100%;
             padding: 0 20px;
-        }
-
-        .hero-title {
-            font-size: 5vw;
-            font-weight: 900;
-            line-height: 1;
-            text-transform: uppercase;
-            margin-bottom: 20px;
-        }
-
-        .shop-now {
-            background-color: white;
-            color: black;
-            padding: 15px 40px;
-            border-radius: 30px;
-            text-decoration: none;
-            font-weight: bold;
-            display: inline-block;
-            margin-top: 20px;
+            z-index: 2;
         }
 
         .hero-logo {
@@ -153,13 +142,7 @@
             width: 150px;
             height: 150px;
             opacity: 0.8;
-        }
-
-        .hero-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            object-position: center;
+            z-index: 2;
         }
 
         .bottom-controls {
@@ -175,6 +158,7 @@
             justify-content: center;
             align-items: center;
             cursor: pointer;
+            z-index: 2;
         }
     </style>
 </head>
@@ -219,6 +203,7 @@
 
     <!-- Hero Section -->
     <div class="hero">
+        <video class="hero-bg-video" src="ad_vid_display.mp4" autoplay loop muted playsinline></video>
         <div class="hero-logo">
             <svg viewBox="0 0 100 100" fill="white">
                 <path d="M10,70 L50,30 L90,70 Z"></path>
@@ -230,5 +215,29 @@
         </div>
         <div class="bottom-controls">&#10073;&#10073;</div>
     </div>
+    <script>
+        // JavaScript for pause button
+        document.querySelector('.pause-button').addEventListener('click', function() {
+            const video = document.querySelector('.hero-bg-video');
+            if (video.paused) {
+                video.play();
+                this.innerHTML = '&#10073;&#10073;';
+            } else {
+                video.pause();
+                this.innerHTML = '&#9658;';
+            }
+        });
+        // JavaScript for bottom controls
+        document.querySelector('.bottom-controls').addEventListener('click', function() {
+            const video = document.querySelector('.hero-bg-video');
+            if (video.paused) {
+                video.play();
+                this.innerHTML = '&#10073;&#10073;';
+            } else {
+                video.pause();
+                this.innerHTML = '&#9658;';
+            }
+        });
+    </script>
 </body>
 </html>
