@@ -45,7 +45,7 @@
         .logo {
             width: 100px;
             height: 40px;
-            cursor: pointer;     /* ⭐ 新增：讓 logo 變成可點擊狀態 */
+            cursor: pointer;     /* 讓 logo 變成可點擊狀態 */
         }
 
         .logo svg {
@@ -141,7 +141,7 @@
             z-index: 2;
         }
 
-        /* 新增：美化 shop-now 按钮 */
+        /*  shop-now 按钮 */
         .shop-now {
             display: inline-block;
             padding: 14px 48px;
@@ -166,7 +166,6 @@
             text-decoration: none;
         }
 
-        /* 浮动按钮样式 */
         .floating-btn {
             position: fixed;
             left: 32px;
@@ -191,7 +190,7 @@
             transform: translateY(-2px) scale(1.03);
         }
 
-        /* 弹窗蒙层 */
+        /* 彈窗蒙層 */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -204,7 +203,7 @@
             display: block;
         }
 
-        /* 弹窗主体 */
+        /* 彈窗主體 */
         .first-time-modal {
             display: none;
             position: fixed;
@@ -364,14 +363,14 @@
         <div class="bottom-controls">&#10073;&#10073;</div>
     </div>
 
-    <!-- 浮动按钮 -->
+    <!-- floating btn -->
     <button class="floating-btn" id="showFirstTimeModal">
         💸 First-time shopper? Tap for 30% OFF!
     </button>
 
-    <!-- 弹窗蒙层 -->
+    <!-- 彈窗蒙層 -->
     <div class="modal-overlay" id="modalOverlay"></div>
-    <!-- 弹窗内容 -->
+    <!-- modal content -->
     <div class="first-time-modal" id="firstTimeModal">
         <button class="close-modal" id="closeFirstTimeModal" aria-label="Close">&times;</button>
         <div class="modal-title">👋 Welcome! Take 30% OFF your first order.</div>
@@ -392,12 +391,52 @@
     </div>
 
     <script>
-        // JavaScript for logo click (forced reload)
+        // Logo 點擊刷新首頁
         document.getElementById('homeLogo').addEventListener('click', function() {
+            // 強制重新整理目前頁面
             window.location.reload();
         });
 
-        // JavaScript for bottom controls
+        // get modal related DOM elements
+        const floatingBtn = document.getElementById('showFirstTimeModal');  // 左下浮動按鈕
+        const modal = document.getElementById('firstTimeModal');            // 彈窗本體
+        const overlay = document.getElementById('modalOverlay');            // 彈窗背景遮罩
+        const closeBtn = document.getElementById('closeFirstTimeModal');    // 關閉彈窗按鈕
+
+        let modalTimer = null; // 控制彈窗自動彈出計時器（確保同時只存在一個）
+
+        // 顯示彈窗
+        function showModal() {
+            modal.classList.add('active');   // 顯示彈窗
+            overlay.classList.add('active'); // 顯示背景遮罩
+        }
+
+        // 隱藏彈窗並設定10秒後自動再彈出
+        function hideModal() {
+            modal.classList.remove('active');   // 隱藏彈窗
+            overlay.classList.remove('active'); // 隱藏背景遮罩
+            if (modalTimer) clearTimeout(modalTimer); // 清除舊計時器（避免多個setTimeout同時作用）
+            modalTimer = setTimeout(showModal, 10000); // 10秒後自動再顯示彈窗
+        }
+
+        // 頁面一進來自動跳出彈窗
+        showModal();
+
+        //  浮動按鈕可隨時手動開啟彈窗
+        floatingBtn.addEventListener('click', showModal);
+
+        //  關閉按鈕或背景遮罩可關閉彈窗
+        closeBtn.addEventListener('click', hideModal);
+        overlay.addEventListener('click', hideModal);
+
+        // 防止表單送出刷新頁面，並顯示優惠碼
+        modal.querySelector('form').addEventListener('submit', function(e){
+            e.preventDefault(); // 阻止預設行為（刷新）
+            hideModal();
+            alert('Your code: WELCOME30'); // 顯示優惠碼
+        });
+
+        // Hero video控制
         document.querySelector('.bottom-controls').addEventListener('click', function() {
             const video = document.querySelector('.hero-bg-video');
             if (video.paused) {
@@ -407,43 +446,6 @@
                 video.pause();
                 this.innerHTML = '&#9658;';
             }
-        });
-
-        const floatingBtn = document.getElementById('showFirstTimeModal');
-        const modal = document.getElementById('firstTimeModal');
-        const overlay = document.getElementById('modalOverlay');
-        const closeBtn = document.getElementById('closeFirstTimeModal');
-        // Add a "Get 30% OFF" button inside the .discount-banner that visually blends in (no button shape).
-        // Clicking this button triggers the popup modal.
-
-        // 顯示彈窗
-        function showModal() {
-            modal.classList.add('active');
-            overlay.classList.add('active');
-        }
-
-        // 隱藏彈窗並在10秒後再自動跳出
-        function hideModal() {
-            modal.classList.remove('active');
-            overlay.classList.remove('active');
-            setTimeout(showModal, 10000); // 10秒後再自動跳
-        }
-
-        // 頁面一進來就跳出（每次刷新都有效）
-        showModal();
-
-        // 浮動按鈕可以隨時打開
-        floatingBtn.addEventListener('click', showModal);
-
-        // 關閉按鈕和背景都能關閉彈窗
-        closeBtn.addEventListener('click', hideModal);
-        overlay.addEventListener('click', hideModal);
-
-        // 防止表單提交刷新頁面，送出表單時關閉彈窗並顯示優惠碼
-        modal.querySelector('form').addEventListener('submit', function(e){
-            e.preventDefault();
-            hideModal();
-            alert('Your code: WELCOME30');
         });
 
     </script>
