@@ -437,42 +437,42 @@
             }
         });
 
-        // 弹窗逻辑
         const floatingBtn = document.getElementById('showFirstTimeModal');
         const modal = document.getElementById('firstTimeModal');
         const overlay = document.getElementById('modalOverlay');
         const closeBtn = document.getElementById('closeFirstTimeModal');
-        let modalShown = false;
 
+        // 顯示彈窗
         function showModal() {
-            if (modalShown) return;
             modal.classList.add('active');
             overlay.classList.add('active');
-            modalShown = true;
         }
+
+        // 隱藏彈窗並在10秒後再自動跳出
         function hideModal() {
             modal.classList.remove('active');
             overlay.classList.remove('active');
+            setTimeout(showModal, 10000); // 10秒後再自動跳
         }
+
+        // 頁面一進來就跳出（每次刷新都有效）
+        showModal();
+
+        // 浮動按鈕可以隨時打開
         floatingBtn.addEventListener('click', showModal);
+
+        // 關閉按鈕和背景都能關閉彈窗
         closeBtn.addEventListener('click', hideModal);
         overlay.addEventListener('click', hideModal);
 
-        // 首次访问7秒后或滚动时弹窗
-        let timer = setTimeout(showModal, 7000);
-        window.addEventListener('scroll', function onScroll() {
-            showModal();
-            window.removeEventListener('scroll', onScroll);
-            clearTimeout(timer);
-        });
-
-        // 防止表单提交刷新页面
+        // 防止表單提交刷新頁面，送出表單時關閉彈窗並顯示優惠碼
         modal.querySelector('form').addEventListener('submit', function(e){
             e.preventDefault();
-            // 可在此处添加后续逻辑
             hideModal();
             alert('Your code: WELCOME30');
         });
+
+
     </script>
 </body>
 </html>
