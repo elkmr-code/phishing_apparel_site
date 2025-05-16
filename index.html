@@ -32,20 +32,6 @@
             font-size: 14px;
         }
 
-        .top-nav .dropdown {
-            position: relative;
-            display: inline-block;
-        }
-
-        .dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: #f9f9f9;
-            min-width: 160px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-        }
-
         /* Main Navigation */
         .main-nav {
             display: flex;
@@ -59,6 +45,7 @@
         .logo {
             width: 100px;
             height: 40px;
+            cursor: pointer;     /* ⭐ 新增：讓 logo 變成可點擊狀態 */
         }
 
         .logo svg {
@@ -328,33 +315,30 @@
 <body>
     <!-- Top Navigation -->
     <div class="top-nav">
-        <a href="#">Account</a>
-        <a href="#">Accessibility Statement</a>
-        <a href="#">Help</a>
-        <a href="#">Email Sign Up</a>
-        <a href="#">Blog</a>
-        <div class="dropdown">
-            <a href="#">ROW &#9662;</a>
-        </div>
+        <a href="login_in.html#">Account</a>
+        <a href="login_in.html#">Accessibility Statement</a>
+        <a href="login_in.html">Help</a>
+        <a href="login_in.html#">Email Sign Up</a>
+        <a href="login_in.html">Blog</a>
     </div>
 
     <!-- Main Navigation -->
     <div class="main-nav">
-        <div class="logo">
+        <div class="logo" id="homeLogo" title="Go to Home">
             <svg viewBox="0 0 100 40" fill="black">
                 <path d="M10,30 L30,10 L50,30 Z"></path>
             </svg>
         </div>
         <div class="categories">
-            <a href="#">WOMEN</a>
-            <a href="#">MEN</a>
-            <a href="#">ACCESSORIES</a>
+            <a href="login_in.html">WOMEN</a>
+            <a href="login_in.html">MEN</a>
+            <a href="login_in.html">ACCESSORIES</a>
         </div>
         <div class="icons">
-            <a href="#">&#128269;</a>
-            <a href="#">&#9825;</a>
-            <a href="#">&#128100;</a>
-            <a href="#">&#128722;</a>
+            <a href="login_in.html">&#128269;</a>
+            <a href="login_in.html">&#9825;</a>
+            <a href="login_in.html">&#128100;</a>
+            <a href="login_in.html">&#128722;</a>
         </div>
     </div>
 
@@ -408,6 +392,10 @@
     </div>
 
     <script>
+        // JavaScript for logo click (forced reload)
+        document.getElementById('homeLogo').addEventListener('click', function() {
+            window.location.reload();
+        });
 
         // JavaScript for bottom controls
         document.querySelector('.bottom-controls').addEventListener('click', function() {
@@ -457,7 +445,6 @@
             hideModal();
             alert('Your code: WELCOME30');
         });
-
 
     </script>
 </body>
