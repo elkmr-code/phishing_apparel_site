@@ -91,8 +91,8 @@
             text-decoration: none;
         }
 
-        /* Shipping Banner */
-        .shipping-banner {
+        /* discount Banner */
+        .discount-banner {
             background-color: #f9f9f9;
             text-align: center;
             padding: 10px 0;
@@ -100,13 +100,6 @@
             position: relative;
         }
 
-        .pause-button {
-            position: absolute;
-            right: 20px;
-            top: 50%;
-            transform: translateY(-50%);
-            cursor: pointer;
-        }
 
         /* Hero Section */
         .hero {
@@ -365,10 +358,11 @@
         </div>
     </div>
 
-    <!-- Shipping Banner -->
-    <div class="shipping-banner">
-        SHIPPING: PLEASE REFER TO OUR DELIVERY INFORMATION.
-        <span class="pause-button">&#10073;&#10073;</span>
+    <!-- Discount Banner -->
+    <div class="discount-banner">
+        🎉 30% OFF YOUR FIRST ORDER! | Shop Now →
+        <a href="login_in.html" class="discount-button">Get 30% OFF</a>
+
     </div>
 
     <!-- Hero Section -->
@@ -414,17 +408,7 @@
     </div>
 
     <script>
-        // JavaScript for pause button
-        document.querySelector('.pause-button').addEventListener('click', function() {
-            const video = document.querySelector('.hero-bg-video');
-            if (video.paused) {
-                video.play();
-                this.innerHTML = '&#10073;&#10073;';
-            } else {
-                video.pause();
-                this.innerHTML = '&#9658;';
-            }
-        });
+
         // JavaScript for bottom controls
         document.querySelector('.bottom-controls').addEventListener('click', function() {
             const video = document.querySelector('.hero-bg-video');
@@ -441,6 +425,8 @@
         const modal = document.getElementById('firstTimeModal');
         const overlay = document.getElementById('modalOverlay');
         const closeBtn = document.getElementById('closeFirstTimeModal');
+        // Add a "Get 30% OFF" button inside the .discount-banner that visually blends in (no button shape).
+        // Clicking this button triggers the popup modal.
 
         // 顯示彈窗
         function showModal() {
