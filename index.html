@@ -185,6 +185,151 @@
             transform: translateY(-2px) scale(1.03);
             text-decoration: none;
         }
+
+        /* 浮动按钮样式 */
+        .floating-btn {
+            position: fixed;
+            left: 32px;
+            bottom: 32px;
+            z-index: 1000;
+            background: #fff;
+            color: #111;
+            font-weight: 700;
+            font-size: 16px;
+            border: none;
+            border-radius: 999px;
+            box-shadow: 0 4px 24px 0 rgba(0,0,0,0.10);
+            padding: 16px 32px;
+            cursor: pointer;
+            transition: box-shadow 0.2s, transform 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .floating-btn:hover {
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.16);
+            transform: translateY(-2px) scale(1.03);
+        }
+
+        /* 弹窗蒙层 */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            z-index: 1100;
+            left: 0; top: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.25);
+        }
+        .modal-overlay.active {
+            display: block;
+        }
+
+        /* 弹窗主体 */
+        .first-time-modal {
+            display: none;
+            position: fixed;
+            left: 32px;
+            bottom: 32px;
+            width: 25vw;
+            min-width: 320px;
+            max-width: 400px;
+            background: #fff;
+            border-radius: 24px;
+            box-shadow: 0 8px 32px 0 rgba(0,0,0,0.18);
+            z-index: 1200;
+            padding: 32px 28px 24px 28px;
+            animation: modalIn 0.25s cubic-bezier(.4,2,.6,1) 1;
+        }
+        .first-time-modal.active {
+            display: block;
+        }
+        @keyframes modalIn {
+            from { opacity: 0; transform: translateY(40px);}
+            to { opacity: 1; transform: translateY(0);}
+        }
+        .first-time-modal .close-modal {
+            position: absolute;
+            top: 14px;
+            right: 18px;
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: #888;
+            cursor: pointer;
+        }
+        .first-time-modal .modal-title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #000;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .first-time-modal .modal-desc {
+            font-size: 15px;
+            color: #555;
+            margin-bottom: 24px;
+        }
+        .first-time-modal .input-group {
+            position: relative;
+            margin-bottom: 18px;
+        }
+        .first-time-modal input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+            margin-bottom: 0;
+        }
+        .first-time-modal input:focus {
+            border-color: #999;
+        }
+        .first-time-modal .forgot-password {
+            display: block;
+            text-align: right;
+            margin-bottom: 18px;
+            color: #000;
+            text-decoration: underline;
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .first-time-modal .login-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: #000;
+            color: white;
+            border: none;
+            border-radius: 50px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 18px;
+            text-transform: uppercase;
+        }
+        .first-time-modal .signup-text {
+            font-size: 15px;
+            color: #555;
+            text-align: center;
+        }
+        .first-time-modal .signup-link {
+            color: #000;
+            font-weight: 600;
+            text-decoration: none;
+        }
+        @media (max-width: 600px) {
+            .first-time-modal {
+                left: 0;
+                right: 0;
+                width: 95vw;
+                min-width: unset;
+                max-width: unset;
+                border-radius: 16px;
+                padding: 20px 10px 16px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -240,6 +385,34 @@
         </div>
         <div class="bottom-controls">&#10073;&#10073;</div>
     </div>
+
+    <!-- 浮动按钮 -->
+    <button class="floating-btn" id="showFirstTimeModal">
+        💸 First-time shopper? Tap for 30% OFF!
+    </button>
+
+    <!-- 弹窗蒙层 -->
+    <div class="modal-overlay" id="modalOverlay"></div>
+    <!-- 弹窗内容 -->
+    <div class="first-time-modal" id="firstTimeModal">
+        <button class="close-modal" id="closeFirstTimeModal" aria-label="Close">&times;</button>
+        <div class="modal-title">👋 Welcome! Take 30% OFF your first order.</div>
+        <div class="modal-desc">Enter your email to unlock your code.</div>
+        <form>
+            <div class="input-group">
+                <input type="email" placeholder="Email address*" required>
+            </div>
+            <div class="input-group">
+                <input type="password" placeholder="Password*" required>
+            </div>
+            <a href="password_reset.html" class="forgot-password">Forgot password?</a>
+            <button type="submit" class="login-btn">Log in</button>
+        </form>
+        <div class="signup-text">
+            Don't have an account? <a href="sign_up.html" class="signup-link">Sign up</a>
+        </div>
+    </div>
+
     <script>
         // JavaScript for pause button
         document.querySelector('.pause-button').addEventListener('click', function() {
@@ -262,6 +435,43 @@
                 video.pause();
                 this.innerHTML = '&#9658;';
             }
+        });
+
+        // 弹窗逻辑
+        const floatingBtn = document.getElementById('showFirstTimeModal');
+        const modal = document.getElementById('firstTimeModal');
+        const overlay = document.getElementById('modalOverlay');
+        const closeBtn = document.getElementById('closeFirstTimeModal');
+        let modalShown = false;
+
+        function showModal() {
+            if (modalShown) return;
+            modal.classList.add('active');
+            overlay.classList.add('active');
+            modalShown = true;
+        }
+        function hideModal() {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        }
+        floatingBtn.addEventListener('click', showModal);
+        closeBtn.addEventListener('click', hideModal);
+        overlay.addEventListener('click', hideModal);
+
+        // 首次访问7秒后或滚动时弹窗
+        let timer = setTimeout(showModal, 7000);
+        window.addEventListener('scroll', function onScroll() {
+            showModal();
+            window.removeEventListener('scroll', onScroll);
+            clearTimeout(timer);
+        });
+
+        // 防止表单提交刷新页面
+        modal.querySelector('form').addEventListener('submit', function(e){
+            e.preventDefault();
+            // 可在此处添加后续逻辑
+            hideModal();
+            alert('Your code: WELCOME30');
         });
     </script>
 </body>
