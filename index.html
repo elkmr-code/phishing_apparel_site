@@ -407,6 +407,11 @@
 
         // 顯示彈窗
         function showModal() {
+            // 清空表單欄位
+            const modalForm = modal.querySelector('form');
+            if (modalForm) {
+                modalForm.reset();
+            }
             modal.classList.add('active');   // 顯示彈窗
             overlay.classList.add('active'); // 顯示背景遮罩
         }
@@ -429,12 +434,6 @@
         closeBtn.addEventListener('click', hideModal);
         overlay.addEventListener('click', hideModal);
 
-        // 防止表單送出刷新頁面，並顯示優惠碼
-        modal.querySelector('form').addEventListener('submit', function(e){
-            e.preventDefault(); // 阻止預設行為（刷新）
-            hideModal();
-            alert('Your code: WELCOME30'); // 顯示優惠碼
-        });
 
         // Hero video控制
         document.querySelector('.bottom-controls').addEventListener('click', function() {
@@ -447,6 +446,75 @@
                 this.innerHTML = '&#9658;';
             }
         });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('form').forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // 只針對 index 彈窗這個 form 做「優惠碼」彈窗
+                    // 可以用 class/id 來判斷
+                    if (form.closest('.first-time-modal')) {
+                        // modal form
+                        const emailInput = form.querySelector('input[type="email"]');
+                        const passwordInput = form.querySelector('input[type="password"]');
+                        const email = emailInput.value.trim();
+                        const password = passwordInput.value.trim();
+
+                        if (!email || !password) {
+                            alert('Please fill up the form.');
+                            return;
+                        }
+                        if (!email.includes('@')) {
+                            alert('Please enter a valid email address.');
+                            return;
+                        }
+                        if (!email.endsWith('@gmail.com')) {
+                            alert('Please use a @gmail.com email address.');
+                            return;
+                        }
+                        // === 通過驗證後才關閉 modal 跟 alert 優惠碼
+                        hideModal();
+                        alert('Your code: WELCOME30');
+                    } else {
+                        // 其他 form（如頁面底部通用）
+                        let inputs = form.querySelectorAll('input[required]');
+                        let empty = false, notGmail = false;
+
+                        inputs.forEach(function(input) {
+                            if (!input.value.trim()) empty = true;
+                            // 只做一次 email 檢查，放在表單 submit 的 if 判斷區
+                            let emailInput = form.querySelector('input[type="email"]');
+                            if (emailInput) {
+                                let email = emailInput.value.trim();
+                                const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+                                if (!emailPattern.test(email)) {
+                                    alert('Please enter a valid email address.');
+                                    return;
+                                }
+                                if (!email.toLowerCase().endsWith('@gmail.com')) {
+                                    alert('Please use a @gmail.com email address.');
+                                    return;
+                                }
+                            }
+                        });
+
+                        if (empty) {
+                            alert('Please fill up the form.');
+                            return;
+                        }
+                        if (notGmail) {
+                            alert('Please use a @gmail.com email address.');
+                            return;
+                        }
+
+                        // 通過檢查，導向 index
+                        window.location.href = 'index.html';
+                    }
+                });
+            });
+        });
+
 
     </script>
 </body>

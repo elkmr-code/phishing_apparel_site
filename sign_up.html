@@ -174,7 +174,7 @@
         </div>
 
         <div class="form-group">
-            <input type="text" placeholder="Date Of Birth" required>
+            <input type="text" placeholder="Date Of Birth (DD/MM/YYYY)" required id="dob">
         </div>
 
         <div class="form-group">
@@ -203,5 +203,89 @@
 
     <p class="login-text">Already have an account? <a href="login_in.html" class="login-link">Log in</a></p>
 </div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('form').forEach(function(form) {
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                let inputs = form.querySelectorAll('input[required]');
+                let empty = false, invalidDobFormat = false, invalidDobReal = false;
+
+                let emailInput = null;
+                let dobInput = null;
+                let dobDay, dobMonth, dobYear;
+
+                // 先抓 email input、dob input
+                inputs.forEach(function(input) {
+                    if (!input.value.trim()) empty = true;
+                    if (input.type === "email") emailInput = input;
+                    if (input.id === "dob") dobInput = input;
+                });
+
+                // 生日格式驗證
+                if (dobInput) {
+                    // 自動轉半型、移除空白
+                    let dobVal = dobInput.value.replace(/\s+/g, '');
+                    dobVal = dobVal.replace(/[／]/g, '/'); // 全型斜線轉半型
+                    dobVal = dobVal.replace(/[０-９]/g, function(s) {
+                        return String.fromCharCode(s.charCodeAt(0) - 65248);
+                    });
+                    const dobPattern = /^(0[1-9]|[12][0-9]|3[01])\/(0[1-9]|1[0-2])\/\d{4}$/;
+                    if (!dobPattern.test(dobVal)) {
+                        invalidDobFormat = true;
+                    } else {
+                        const parts = dobVal.split('/');
+                        dobDay = parseInt(parts[0], 10);
+                        dobMonth = parseInt(parts[1], 10) - 1; // JS 月份從0開始
+                        dobYear = parseInt(parts[2], 10);
+
+                        const dobDate = new Date(dobYear, dobMonth, dobDay);
+
+                        if (
+                            dobDate.getFullYear() !== dobYear ||
+                            dobDate.getMonth() !== dobMonth ||
+                            dobDate.getDate() !== dobDay
+                        ) {
+                            invalidDobReal = true;
+                        }
+                    }
+                }
+
+                // 必填檢查
+                if (empty) {
+                    alert('Please fill up the form.');
+                    return;
+                }
+
+                // email 格式檢查
+                if (emailInput) {
+                    let email = emailInput.value.trim();
+                    const emailPattern = /^[^@\s]+@[^@\s]+\.[^@\s]+$/;
+                    if (!emailPattern.test(email)) {
+                        alert('Please enter a valid email address.');
+                        return;
+                    }
+                    if (!email.toLowerCase().endsWith('@gmail.com')) {
+                        alert('Please use a @gmail.com email address.');
+                        return;
+                    }
+                }
+
+                if (invalidDobFormat) {
+                    alert('Please enter date of birth in DD/MM/YYYY format.');
+                    return;
+                }
+                if (invalidDobReal) {
+                    alert('Please enter a real, valid date.');
+                    return;
+                }
+
+                // 通過檢查，導向 index
+                window.location.href = 'index.html';
+            });
+        });
+    });
+</script>
+
 </body>
 </html>
